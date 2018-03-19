@@ -20,13 +20,16 @@
 	// placing it in a ScriptUI Panels subfolder of the Scripts 
 	// folder, and then choosing the Launch Pad.jsx script from 
 	// the Window menu. Even more good stuff.
+	//** add sort() after getFiles(launchPad_filterJSXFiles) to fix mess order on macOS
+	//** by songz <songzmeng@gmail.com>
+	//** 2018/03/19.
 	
 	
 	function LaunchPad(thisObj)
 	{
 		var launchPadData = new Object();
 		launchPadData.scriptName = "Launch Pad";
-		launchPadData.version = "1.2";
+		launchPadData.version = "1.2.1";
 		
 		launchPadData.strSettings = "...";
 		launchPadData.strSettingsTip = "Settings";
@@ -164,7 +167,7 @@
 				{
 					launchPadData.scriptsFolder = scriptsFolder;
 					// Get all scripts in the selected folder, but not this one, cuz that would be weird :-)
-					launchPadData.scripts = scriptsFolder.getFiles(launchPad_filterJSXFiles);
+					launchPadData.scripts = scriptsFolder.getFiles(launchPad_filterJSXFiles).sort();
 					
 					// Remember the scripts folder for the next session
 					app.settings.saveSetting("Adobe", "launchPad_scriptsFolder", launchPadData.scriptsFolder.fsName);
@@ -241,14 +244,14 @@
 			{
 				launchPadData.scriptsFolder = new Folder(app.settings.getSetting("Adobe", "launchPad_scriptsFolder").toString());
 				if ((launchPadData.scriptsFolder != null) && launchPadData.scriptsFolder.exists)
-					launchPadData.scripts = launchPadData.scriptsFolder.getFiles(launchPad_filterJSXFiles);
+					launchPadData.scripts = launchPadData.scriptsFolder.getFiles(launchPad_filterJSXFiles).sort();
 			}
 			else
 			{
 				launchPadData.scriptsFolder = Folder.selectDialog(launchPadData.strSelScriptsFolder, new Folder(Folder.startup.fsName + "/Scripts/"));
 				if ((launchPadData.scriptsFolder != null) && launchPadData.scriptsFolder.exists)
 				{
-					launchPadData.scripts = launchPadData.scriptsFolder.getFiles(launchPad_filterJSXFiles);
+					launchPadData.scripts = launchPadData.scriptsFolder.getFiles(launchPad_filterJSXFiles).sort();
 					
 					// Remember the scripts folder for the next session
 					app.settings.saveSetting("Adobe", "launchPad_scriptsFolder", launchPadData.scriptsFolder.fsName);
